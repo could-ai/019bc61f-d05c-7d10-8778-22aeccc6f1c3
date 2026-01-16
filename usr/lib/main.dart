@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           background: Color(0xFF0A0A0A),
         ),
         useMaterial3: true,
-        fontFamily: 'Roboto', // Using default, but styled heavily
+        fontFamily: 'Roboto', 
       ),
       home: const ProfilePage(),
     );
@@ -41,13 +41,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final ScrollController _scrollController = ScrollController();
-  double _opacity = 1.0; // 直接设置为1.0，确保内容立即显示
-
-  @override
-  void initState() {
-    super.initState();
-    // 移除延迟动画，以避免加载问题
-  }
+  final double _opacity = 1.0; 
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +61,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     const SizedBox(height: 20),
                     _buildIntroSection(),
+                    const SizedBox(height: 30),
+                    _buildPersonalInfoGrid(),
                     const SizedBox(height: 40),
-                    _buildStatsGrid(),
-                    const SizedBox(height: 50),
                     const SectionHeader(title: "ACHIEVEMENTS", subtitle: "主要成就"),
                     const SizedBox(height: 20),
                     _buildAchievementsList(),
@@ -206,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         const SizedBox(height: 16),
         Text(
-          "毕业于上海交通大学信息安全工程专业，信息安全、流程挖掘与人工智能领域技术专家。曾任职于 Symantec，参与创办秒针系统，并在多家人工智能、工业互联网及企业数字化公司担任首席技术官。",
+          "毕业于上海交通大学信息安全工程专业，信息安全、流程挖掘与人工智能领域技术专家。曾任职于 Symantec，参与创办秒针系统，并在多家人工智能、工业互联网及企业数字化公司担任首席技术官。长期从事分布式系统、流程自动化与智能体相关技术研发。",
           style: TextStyle(
             color: Colors.white.withOpacity(0.8),
             fontSize: 15,
@@ -218,64 +212,66 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildStatsGrid() {
-    return GridView.count(
-      crossAxisCount: 2,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
-      childAspectRatio: 2.5,
-      children: [
-        _buildStatCard("EDUCATION", "SJTU 上海交大", Icons.school_outlined),
-        _buildStatCard("FOCUS", "AI & Security", Icons.psychology_outlined),
-        _buildStatCard("EXPERIENCE", "18+ Years", Icons.history_edu_outlined),
-        _buildStatCard("LOCATION", "Shanghai / Global", Icons.public_outlined),
-      ],
-    );
-  }
-
-  Widget _buildStatCard(String label, String value, IconData icon) {
+  Widget _buildPersonalInfoGrid() {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: const Color(0xFF1E1E1E),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white.withOpacity(0.05)),
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: const Color(0xFF00E5FF), size: 24),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(0.4),
-                    fontSize: 10,
-                    letterSpacing: 1.0,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+          Text(
+            "PERSONAL PROFILE",
+            style: TextStyle(
+              color: Colors.white.withOpacity(0.4),
+              fontSize: 12,
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.bold,
             ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(child: _buildInfoItem("Education", "SJTU 上海交大")),
+              Expanded(child: _buildInfoItem("Birth", "1984.04.15")),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(child: _buildInfoItem("Hometown", "Mudanjiang, CN")),
+              Expanded(child: _buildInfoItem("Role", "Founder & CTO")),
+            ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildInfoItem(String label, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            color: const Color(0xFF00E5FF).withOpacity(0.7),
+            fontSize: 11,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          value,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 
@@ -285,6 +281,8 @@ class _ProfilePageState extends State<ProfilePage> {
       "中国流程挖掘技术第一人",
       "VR 家居设计软件技术开创者",
       "CouldAI 创始人 (AI App Builder)",
+      "Google Camp 全球首家学生社团创办人",
+      "上海交通大学联读班 / 学生会主席",
     ];
 
     return Column(
@@ -326,7 +324,7 @@ class _ProfilePageState extends State<ProfilePage> {
           year: "2024 - Present",
           title: "CouldAI Inc.",
           role: "Founder & CEO",
-          description: "专注于通用智能体与 AI 编程平台方向。开发世界首个可以生成跨平台原生应用的 AI App Builder，实现基于云端的浏览器自动化技术。",
+          description: "专注于通用智能体与 AI 编程平台。2025年8月开发完成世界首个生成跨平台原生应用的 AI App Builder。11月正式发布全球首个基于 Flutter 的 AI 编程平台，实现一键发布至 App Store 及 Google Play。",
           isFirst: true,
           isActive: true,
         ),
@@ -334,25 +332,25 @@ class _ProfilePageState extends State<ProfilePage> {
           year: "2021 - 2024",
           title: "九科信息 (Jiuke Info)",
           role: "CTO",
-          description: "孵化于招商局集团。开发国内首个流程挖掘算法及产品，主导研发企业级GUI智能体bit-Agent，服务200亿以上营收规模大型企业上百家。",
+          description: "孵化于招商局集团。开发国内首个流程挖掘算法及产品，主导研发企业级GUI智能体 bit-Agent。服务200亿以上营收规模大型企业上百家，推动业务流程走向真正的智能自动化。",
         ),
         TimelineItem(
           year: "2016 - 2021",
           title: "新格尔人居 (Thinkerx)",
           role: "CTO",
-          description: "工业互联网独角兽。独自开发0.1秒排版优化算法，服务超过142万家商家，实现全屋定制前后端一体化。",
+          description: "工业互联网独角兽。独自开发 0.1 秒排版优化算法（行业水平5-30分钟），服务超过142万家商家。整合设计渲染、拆单下料及物流管理，实现全屋定制前后端一体化。",
         ),
         TimelineItem(
           year: "2011 - 2016",
           title: "VR Home Platform",
           role: "Founder",
-          description: "创办世界首个VR整体家装平台。基于游戏引擎开发家居VR设计软件，公司最高估值5亿元。",
+          description: "创办世界首个VR整体家装平台。基于游戏引擎开发家居VR设计软件，集合谷居VR、谷居网等模块。公司最高估值5亿元，拥有15万入驻设计师及100+城市运营中心。",
         ),
         TimelineItem(
           year: "2007 - 2011",
           title: "Miaozhen / Symantec",
           role: "Co-Founder / Engineer",
-          description: "参与创办秒针系统（后明略科技），日处理1000亿次PV。早年任职Symantec从事企业级安全产品开发。",
+          description: "参与创办秒针系统（后明略科技），日处理1000亿次PV，发展为亚太最大互联网广告公司（2025年港交所上市，市值420亿）。早年任职 Symantec 开发企业级诺顿安全产品。",
           isLast: true,
         ),
       ],
