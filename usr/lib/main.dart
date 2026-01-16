@@ -41,16 +41,12 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final ScrollController _scrollController = ScrollController();
-  double _opacity = 0.0;
+  double _opacity = 1.0; // 直接设置为1.0，确保内容立即显示
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 500), () {
-      setState(() {
-        _opacity = 1.0;
-      });
-    });
+    // 移除延迟动画，以避免加载问题
   }
 
   @override
